@@ -53,7 +53,7 @@
 
       <div class="cm-tape">
         <img src="contacts-assets/tape.png" alt="">
-        <div class="txt">Работа в штате<span class="cm-dot"></span>Проектная работа<span class="cm-dot"></span>Удалённо</div>
+        <div class="txt"><span class="cm-fmt-title">Форматы работы</span><span class="cm-fmt">Работа в штате</span><span class="cm-fmt">Проектная работа</span><span class="cm-fmt">Удалённо</span></div>
       </div>
     </div>
   </div>`;
