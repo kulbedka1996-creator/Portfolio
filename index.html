@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<title>Портфолио — Кульбеда Анастасии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="skills-modal.css?v=6">
+<link rel="stylesheet" href="projects-modal.css?v=6">
+<link rel="stylesheet" href="resume-modal.css?v=6">
+<link rel="stylesheet" href="contacts-modal.css?v=6">
+<script src="skills-modal.js?v=6" defer></script>
+<script src="projects-modal.js?v=6" defer></script>
+<script src="resume-modal.js?v=6" defer></script>
+<script src="contacts-modal.js?v=6" defer></script>
+<style>
+  :root{
+    --bg:#030635;
+    --title:#8b95f6;
+    --btn-ink:#2743e0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  ::selection{background:#8187F8;color:#fff}
+  html,body{height:100%}
+  body{
+    font-family:'Inter Tight',sans-serif;
+    background:var(--bg);
+    color:#E8E9ED;
+    overflow-x:hidden;min-height:100vh;
+  }
+
+  /* ---------- ГРАДИЕНТНАЯ АНИМАЦИЯ ФОНА ---------- */
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.4;mix-blend-mode:screen}
+  .b1{width:48vw;height:48vw;left:-10vw;top:-8vw;background:radial-gradient(circle,#3a4bd8 0%,transparent 70%);animation:drift1 30s ease-in-out infinite}
+  .b2{width:42vw;height:42vw;right:-8vw;top:14vh;background:radial-gradient(circle,#6f5cff 0%,transparent 70%);animation:drift2 38s ease-in-out infinite}
+  .b3{width:36vw;height:36vw;left:24vw;bottom:-14vw;background:radial-gradient(circle,#243bb0 0%,transparent 70%);animation:drift3 44s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(7vw,5vh) scale(1.12)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(-6vw,7vh) scale(.9)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-6vh) scale(1.15)}}
+
+  /* ---------- КОМПОНОВКА ---------- */
+  .hero{position:relative;z-index:10;min-height:100vh;display:grid;
+    grid-template-columns:0.92fr 1.08fr;align-items:center;
+    max-width:1460px;margin:0 auto;padding:40px 28px 40px 56px;gap:20px}
+
+  .left{position:relative}
+  .head{margin-top:-40px}
+  .titleimg{display:block;width:min(37vw,520px);height:auto}
+  .sub{font:400 clamp(14px,1.15vw,18px)/1.3 'Inter Tight',sans-serif;color:#8b95f6;letter-spacing:.01em;margin-top:12px}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap}
+
+  .notes{margin-top:48px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 26px;width:100%;max-width:560px;perspective:900px}
+  .note{position:relative;display:block;text-decoration:none;cursor:pointer;
+    perspective:800px;transform-origin:top center;
+    transition:transform 2s cubic-bezier(.25,.6,.35,1), filter 2s ease}
+  .note .in{position:relative;display:block;transform-origin:top center}
+  .note img{width:100%;height:auto;display:block;
+    filter:drop-shadow(0 18px 26px rgba(2,3,28,.56))}
+  .note .lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    padding-bottom:6%;
+    font-family:'Caveat',cursive;font-weight:400;font-size:40px;letter-spacing:.01em;color:#48495A}
+  .note .in{animation:wind 7s cubic-bezier(.3,.65,.7,.35) infinite}
+  .note img{animation:shadowHard 7s cubic-bezier(.3,.65,.7,.35) infinite}
+  /* ховер = порыв ветра: низ приподнимается быстро, опускается медленно */
+  .note:hover{transform:rotateX(13deg) skewX(2deg);filter:brightness(1.07);
+    transition:transform .55s cubic-bezier(.45,0,.4,1), filter .55s ease}
+  .note:active{transform:rotateX(17deg) skewX(2.5deg)}
+  .note.n1 .lbl{transform:rotate(-10deg)}
+  .note.n2 .lbl{transform:rotate(-7deg)}
+  .note.n3 .lbl{transform:rotate(-4deg)}
+  .note.n4 .lbl{transform:rotate(-6deg)}
+  /* порыв ветерка: быстрый подъём нижнего края (ускорение),
+     затем долгое затухающее возвращение (замедление). Верх приклеен. */
+  @keyframes wind{
+    0%,100%{transform:rotateX(.4deg) skewX(0deg);
+      animation-timing-function:cubic-bezier(.55,0,.8,.5)}   /* разгон */
+    14%{transform:rotateX(11deg) skewX(2.6deg);
+      animation-timing-function:cubic-bezier(.2,.55,.35,1)}  /* пик — начало торможения */
+    48%{transform:rotateX(2.6deg) skewX(.7deg);
+      animation-timing-function:cubic-bezier(.3,.5,.5,1)}    /* медленно опускается */
+    76%{transform:rotateX(.9deg) skewX(.2deg);
+      animation-timing-function:cubic-bezier(.33,.55,.55,1)} /* совсем затихает */}
+  /* жёсткая тень — стикер близко к стене (левая сторона) */
+  @keyframes shadowHard{
+    0%,100%{filter:drop-shadow(-2px 6px 3px rgba(2,3,28,.62));
+      animation-timing-function:cubic-bezier(.55,0,.8,.5)}
+    14%{filter:drop-shadow(10px 14px 8px rgba(2,3,28,.52));
+      animation-timing-function:cubic-bezier(.2,.55,.35,1)}
+    48%{filter:drop-shadow(2px 8px 5px rgba(2,3,28,.58));
+      animation-timing-function:cubic-bezier(.3,.5,.5,1)}
+    76%{filter:drop-shadow(-1px 7px 4px rgba(2,3,28,.6));
+      animation-timing-function:cubic-bezier(.33,.55,.55,1)}}
+  /* рассеянная тень — стикер дальше от стены (правая сторона) */
+  @keyframes shadowSoft{
+    0%,100%{filter:drop-shadow(-4px 18px 20px rgba(2,3,28,.56));
+      animation-timing-function:cubic-bezier(.55,0,.8,.5)}
+    14%{filter:drop-shadow(16px 30px 36px rgba(2,3,28,.45));
+      animation-timing-function:cubic-bezier(.2,.55,.35,1)}
+    48%{filter:drop-shadow(3px 22px 26px rgba(2,3,28,.53));
+      animation-timing-function:cubic-bezier(.3,.5,.5,1)}
+    76%{filter:drop-shadow(-2px 19px 22px rgba(2,3,28,.55));
+      animation-timing-function:cubic-bezier(.33,.55,.55,1)}}
+
+  /* ---------- ФОТО-РАСКАДРОВКА ---------- */
+  .right{position:relative;display:flex;align-items:center;justify-content:flex-end}
+  .collage{position:relative;width:min(52vw,92vh,740px);aspect-ratio:792/780;perspective:1100px}
+  .tile{position:absolute;z-index:1;transform-origin:top center;margin-left:20px;
+    transition:transform 2s cubic-bezier(.25,.6,.35,1), filter 2s ease}
+  .decor{position:absolute;z-index:6;transform-origin:top center;
+    transition:transform 2s cubic-bezier(.25,.6,.35,1), filter 2s ease}
+  .tile .tin,.decor .tin{position:relative;display:block;transform-origin:top center;
+    animation:wind 7s cubic-bezier(.3,.65,.7,.35) infinite}
+  .tile img,.decor img{width:100%;height:auto;display:block;
+    animation:shadowSoft 7s cubic-bezier(.3,.65,.7,.35) infinite}
+  /* ховер = порыв ветра, как в цикле: быстрый подъём низа, медленный возврат.
+     Плитка и приклеенный к ней листочек двигаются как одно целое (пары: d1+t1, d2+t9, d3+t7) */
+  .tile:hover,.decor:hover,
+  .collage:has(.d1:hover) .t1,.collage:has(.t1:hover) .d1,
+  .collage:has(.d2:hover) .t9,.collage:has(.t9:hover) .d2,
+  .collage:has(.d3:hover) .t7,.collage:has(.t7:hover) .d3{
+    transform:rotateX(13deg) skewX(2deg);
+    filter:brightness(1.06);
+    transition:transform .55s cubic-bezier(.45,0,.4,1), filter .55s ease}
+  .d1{width:34%;left:calc(0% + 20px);top:-10%}
+  .d2{width:28%;right:calc(-7% - 20px);bottom:11%}
+  .d3{width:26%;left:calc(1% + 20px);bottom:-9%}
+
+  /* надписи на декоративных стикерах */
+  .decor .dlbl{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:12% 14%;
+    font:400 24px/0.85 'Caveat',cursive;letter-spacing:.01em;color:#48495A}
+  .d1 .dlbl{transform:rotate(-2deg) translateY(-10px)}
+  .d2 .dlbl{transform:rotate(-8deg)}
+  .d3 .dlbl{transform:rotate(-6deg)}
+
+  /* хаотичность: у каждого стикера свой темп и фаза (тень синхронна со своим стикером) */
+  .note.n1 .in,.note.n1 img{animation-duration:6.4s}
+  .note.n2 .in,.note.n2 img{animation-duration:7.9s;animation-delay:-2.3s}
+  .note.n3 .in,.note.n3 img{animation-duration:7.1s;animation-delay:-3.5s}
+  .note.n4 .in,.note.n4 img{animation-duration:8.4s;animation-delay:-1.2s}
+  .t1 .tin,.t1 img{animation-duration:7.2s;animation-delay:-1.0s}
+  .t2 .tin,.t2 img{animation-duration:8.1s;animation-delay:-2.4s}
+  .t3 .tin,.t3 img{animation-duration:6.6s;animation-delay:-0.6s}
+  .t4 .tin,.t4 img{animation-duration:7.9s;animation-delay:-3.1s}
+  .t5 .tin,.t5 img{animation-duration:8.6s;animation-delay:-1.7s}
+  .t6 .tin,.t6 img{animation-duration:7.0s;animation-delay:-2.9s}
+  .t7 .tin,.t7 img{animation-duration:8.3s;animation-delay:-0.9s}
+  .t8 .tin,.t8 img{animation-duration:6.9s;animation-delay:-3.6s}
+  .t9 .tin,.t9 img{animation-duration:7.6s;animation-delay:-1.4s}
+  .d1 .tin,.d1 img{animation-duration:9.0s;animation-delay:-2.0s}
+  .d2 .tin,.d2 img{animation-duration:9.8s;animation-delay:-4.1s}
+  .d3 .tin,.d3 img{animation-duration:8.2s;animation-delay:-1.5s}
+
+  /* ---------- ПОЛОСКА-ТЕНЬ «ПРИКЛЕЕННОСТИ» СВЕРХУ ---------- */
+  /* затемнённая копия стикера, видимая только в верхней полосе (маска-градиент,
+     работает и при открытии file:// — в отличие от маски-картинки) */
+  .note .in::after,.tile .tin::after,.decor .tin::after{content:"";position:absolute;inset:0;
+    pointer-events:none;z-index:2;
+    background-image:var(--m);background-size:100% 100%;background-repeat:no-repeat;
+    filter:brightness(1.14) saturate(.92);
+    -webkit-mask-image:linear-gradient(180deg,
+      rgba(0,0,0,.95) 0%, rgba(0,0,0,.90) 9%,
+      rgba(0,0,0,.35) 12%, rgba(0,0,0,0) 15%);
+    mask-image:linear-gradient(180deg,
+      rgba(0,0,0,.95) 0%, rgba(0,0,0,.90) 9%,
+      rgba(0,0,0,.35) 12%, rgba(0,0,0,0) 15%)}
+  /* на белой бумаге фото-плиток «ярче» не видно — даём лёгкий тёплый глянец */
+  .tile .tin::after,.decor .tin::after{filter:brightness(1.05) sepia(.28) saturate(1.15)}
+  .note.n1 .in{--m:url("skills-c.png")}
+  .note.n2 .in{--m:url("projects-c.png")}
+  .note.n3 .in{--m:url("resume-c.png")}
+  .note.n4 .in{--m:url("contacts-c.png")}
+  .t1{--m:url("photo-01.png")}.t2{--m:url("photo-02.png")}.t3{--m:url("photo-03.png")}
+  .t4{--m:url("photo-04.png")}.t5{--m:url("photo-05.png")}.t6{--m:url("photo-06.png")}
+  .t7{--m:url("photo-07.png")}.t8{--m:url("photo-08.png")}.t9{--m:url("photo-9.png")}
+  .d1{--m:url("decor-01.png")}.d2{--m:url("decor-02.png")}.d3{--m:url("decor-03.png")}
+
+  /* ---------- АДАПТИВ ---------- */
+  @media (max-width:960px){
+    .hero{display:flex;flex-direction:column;align-items:center;max-width:560px;padding:80px 20px 46px;gap:26px}
+    .left{display:contents}
+    .head{order:1;margin-top:0;width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+    .titleimg{width:100%;max-width:none}
+    .sub{margin-top:2px;font-size:clamp(13px,3.6vw,17px)}
+    .right{order:2;width:100%;justify-content:center}
+    .collage{width:min(86vw,440px)}
+    .notes{order:3;width:100%;max-width:none;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:0;transform:none!important}
+    .note .lbl{font-size:clamp(24px,6.5vw,36px)}
+    .d1,.d2,.d3{display:block}
+    .d1 .dlbl,.d2 .dlbl,.d3 .dlbl{display:none}
+  }
+  @keyframes sheetCut{0%{filter:blur(7px) brightness(1.25);opacity:.15;transform:scale(1.04)}100%{filter:blur(0) brightness(1);opacity:1;transform:none}}
+  #modalBackdrop{position:fixed;inset:0;z-index:99;background:rgba(2,6,51,.8);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);opacity:0;pointer-events:none;transition:opacity .4s ease}
+  #modalBackdrop.on{opacity:1;pointer-events:auto}
+  #sharedMini{z-index:101;opacity:0;pointer-events:none;transition:opacity .4s ease}
+  #sharedMini.on{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+  <div class="bg">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  </div>
+
+  <section class="hero">
+    <div class="left">
+      <div class="head">
+        <h1 class="visually-hidden">Портфолио Кульбеды Анастасии — веб-дизайнер</h1>
+        <img class="titleimg" src="title.svg" alt="Портфолио Кульбеды Анастасии — веб-дизайнер, сайты, интерфейсы">
+        <p class="sub">Веб-дизайнер · сайты, интерфейсы</p>
+      </div>
+
+      <nav class="notes">
+        <a class="note n1" href="#skills"><span class="in"><img src="skills-c.png" alt=""><span class="lbl">Скиллы</span></span></a>
+        <a class="note n2" href="#projects"><span class="in"><img src="projects-c.png" alt=""><span class="lbl">Проекты</span></span></a>
+        <a class="note n3" href="#resume"><span class="in"><img src="resume-c.png" alt=""><span class="lbl">Резюме</span></span></a>
+        <a class="note n4" href="#contacts"><span class="in"><img src="contacts-c.png" alt=""><span class="lbl">Контакты</span></span></a>
+      </nav>
+    </div>
+
+    <div class="right">
+      <div class="collage">
+        <div class="decor d1"><span class="tin"><img src="decor-01.png" alt=""><span class="dlbl">Собираю проект целиком</span></span></div>
+        <div class="decor d2"><span class="tin"><img src="decor-02.png" alt=""><span class="dlbl">Держу фокус<br>на задаче</span></span></div>
+        <div class="decor d3"><span class="tin"><img src="decor-03.png" alt=""><span class="dlbl">Соединяю структуру<br>и впечатление</span></span></div>
+        <div class="tile t1" style="left:-7.197%;top:0%;width:38.763%"><span class="tin"><img src="photo-01.png" alt=""></span></div>
+        <div class="tile t2" style="left:32.828%;top:0%;width:30.051%"><span class="tin"><img src="photo-02.png" alt=""></span></div>
+        <div class="tile t3" style="left:64.141%;top:0%;width:28.662%"><span class="tin"><img src="photo-03.png" alt=""></span></div>
+        <div class="tile t4" style="left:3.283%;top:36.154%;width:28.283%"><span class="tin"><img src="photo-04.png" alt=""></span></div>
+        <div class="tile t5" style="left:32.828%;top:36.154%;width:30.051%"><span class="tin"><img src="photo-05.png" alt=""></span></div>
+        <div class="tile t6" style="left:64.141%;top:36.154%;width:32.576%"><span class="tin"><img src="photo-06.png" alt=""></span></div>
+        <div class="tile t7" style="left:4.924%;top:68.590%;width:29.167%"><span class="tin"><img src="photo-07.png" alt=""></span></div>
+        <div class="tile t8" style="left:35.354%;top:68.590%;width:30.051%"><span class="tin"><img src="photo-08.png" alt=""></span></div>
+        <div class="tile t9" style="left:66.667%;top:68.590%;width:28.409%"><span class="tin"><img src="photo-9.png" alt=""></span></div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  // Выравнивание рядов стикеров слева по рядам фото-коллажа
+  function alignNotes(){
+    const collage=document.querySelector('.collage');
+    const notes=document.querySelector('.notes');
+    if(!collage||!notes)return;
+    if(innerWidth<=960){
+      notes.style.gridTemplateColumns='';notes.style.rowGap='';
+      notes.style.maxWidth='';notes.style.transform='';return;
+    }
+    const H=collage.getBoundingClientRect().height;
+    const rowSpan=(0.68590-0.36154)*H;      // расстояние между верхом среднего и нижнего ряда
+    const gap=18;
+    const colW=Math.max(150,(rowSpan-gap)/1.017); // 1.017 — соотношение сторон стикера
+    notes.style.gridTemplateColumns=`repeat(2, ${colW}px)`;
+    notes.style.rowGap=gap+'px';
+    notes.style.maxWidth='none';
+    notes.style.transform='';
+    const t4=document.querySelector('.t4');
+    const n1=document.querySelector('.note.n1');
+    const dy=t4.getBoundingClientRect().top-n1.getBoundingClientRect().top;
+    notes.style.transform=`translateY(${dy}px)`;
+  }
+  addEventListener('load',alignNotes);
+  addEventListener('resize',alignNotes);
+  (function(){
+    var bd=document.createElement('div');bd.id='modalBackdrop';document.body.appendChild(bd);
+    var mini=document.createElement('aside');mini.className='sm-mini';mini.id='sharedMini';
+    mini.innerHTML='<button class="mini" data-open="skills"><img src="skills-c.png" alt=""><span class="mlbl" style="transform:rotate(-15deg)">Скиллы</span></button><button class="mini" data-open="projects"><img src="contacts-c.png" alt=""><span class="mlbl" style="transform:rotate(2.3deg)">Проекты</span></button><button class="mini" data-open="resume"><img src="resume-c.png" alt=""><span class="mlbl" style="transform:rotate(1.3deg)">Резюме</span></button><button class="mini" data-open="contacts"><img src="contacts-c.png" alt=""><span class="mlbl" style="transform:rotate(-5.6deg)">Контакты</span></button>';
+    document.body.appendChild(mini);
+    window.refreshBackdrop=function(){
+      var om=document.querySelector('.skills-modal.open,.projects-modal.open,.resume-modal.open,.contacts-modal.open');
+      bd.classList.toggle('on',!!om); mini.classList.toggle('on',!!om);
+      var key=om?om.id.replace('Modal',''):null;
+      mini.querySelectorAll('.mini').forEach(function(b){b.classList.toggle('active',b.dataset.open===key);});
+    };
+    mini.querySelectorAll('.mini[data-open]').forEach(function(b){
+      b.addEventListener('click',function(){
+        if(b.classList.contains('active'))return;
+        var target=b.dataset.open;
+        var wasOpen=[].slice.call(document.querySelectorAll('.skills-modal.open,.projects-modal.open,.resume-modal.open,.contacts-modal.open'));
+        if(window.modalOpeners&&window.modalOpeners[target])window.modalOpeners[target]();
+        wasOpen.forEach(function(m){m.classList.remove('open');});
+        if(window.refreshBackdrop)window.refreshBackdrop();
+      });
+    });
+  })();
+</script>
+</body>
+</html>
